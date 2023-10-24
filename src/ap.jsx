@@ -1,6 +1,6 @@
 import React from 'react';
 
-function APSeries({ firstTerm, commonDifference, numberOfTerms }) {
+function APSeries({ firstTerm, numberOfTerms ,commonDifference }) {
   const apSeries = [];
 
   for (let i = 0; i < numberOfTerms; i++) {

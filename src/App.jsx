@@ -1,65 +1,88 @@
 import React, { useState } from 'react';
-import APSeries from './ap.jsx';
+import './App.css';
 
 function NumberInputForm() {
-  // State to manage input values
-  const [input1, setInput1] = useState('');
-  const [input2, setInput2] = useState('');
-  const [input3, setInput3] = useState('');
-  
- 
+  const [firstTerm, setFirstTerm] = useState('');
+  const [commonDifference, setCommonDifference] = useState('');
+  const [numberOfTerms, setNumberOfTerms] = useState('');
+  const [seriesSum, setSeriesSum] = useState(null);
+  const [apSeries, setAPSeries] = useState([]);
 
-  // Function to handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleCalculateClick = () => {
+    const a = Number(firstTerm);
+    const d = Number(commonDifference);
+    const n = Number(numberOfTerms);
 
-    // Process the input values as needed
-    // For this example, we'll just log them to the console
-    console.log('a', input1);
-    console.log('d', input2);
-    console.log('n', input3);
-    
+    // Calculate the sum of the AP series
+    const sum = (n * (2 * a + (n - 1) * d)) / 2;
+
+    // Calculate the AP series
+    const apSeriesArray = Array.from({ length: n }, (_, i) => a + i * d);
+
+    setSeriesSum(sum);
+    setAPSeries(apSeriesArray);
   };
 
   return (
-    <div>
-      <h1>AP calculator</h1>
-      <form onSubmit={handleSubmit}>
+    <div className='get-lost'>
+     <center>  <h1 class="h1">  AP Series Calculator</h1>
+      <p class="p">Welcome to Keshav's AP-Series Calculator </p>
+    </center>
+    <div className="form-container">
+      <div className="form">
+        <label class="label">First  term (a):</label>
         <input
-          type="number"
-          placeholder="a"
-          value={input1}
-          onChange={(e) => setInput1(e.target.value)}
+           type="text"  // Change the type to "text"
+           inputMode="numeric"  // Set inputMode to "numeric"
+           pattern="[0-9]*"
+          value={firstTerm}
+          onChange={(e) => setFirstTerm(e.target.value)}
         />
         <br />
+        <label class="label">Common Difference (d):</label>
+          <input
+            type="text"  // Change the type to "text"
+            inputMode="numeric"  // Set inputMode to "numeric"
+            pattern="[0-9]*"  // Set the pattern to allow only numeric characters
+            value={commonDifference}
+            onChange={(e) => setCommonDifference(e.target.value)}
+          />
+        <br />
+        <label class="label">Total number (n):  </label>
         <input
-          type="number"
-          placeholder="n"
-          value={input2}
-          onChange={(e) => setInput2(e.target.value)}
+          type="text"  // Change the type to "text"
+          inputMode="numeric"  // Set inputMode to "numeric"
+          pattern="[0-9]*"
+          value={numberOfTerms}
+          onChange={(e) => setNumberOfTerms(e.target.value)}
         />
-         <br/>
-        <input
-          type="number"
-          placeholder="d"
-          value={input3}
-          onChange={(e) => setInput3(e.target.value)}
-        />
-         <br />
-       
-        <button type="submit">Submit</button>
-       
-      </form>
-       {input1 && input2 && input3 && (
-        <APSeries
-          firstTerm={Number(input1)}
-          commonDifference={Number(input3)}
-          numberOfTerms={Number(input2)}
-        />
+        <br />
+        <button class="button-17" role="button" onClick={handleCalculateClick}>Submit</button>
+      </div>
+      {seriesSum !== null && (
+       <div className="result">
+       <div>
+         <strong>Sum of the AP Series:</strong>
+         <div>{seriesSum}</div>
+       </div>
+       <div>
+         <strong>AP Series:</strong>
+         <div>{apSeries.join(', ')}</div>
+       </div>
+     </div>
+        
       )}
     </div>
-    
+    </div>
   );
 }
 
-export default NumberInputForm;
+function App() {
+  return (
+    <div className="App">
+      <NumberInputForm />
+    </div>
+  );
+}
+
+export default App;
